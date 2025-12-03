@@ -7,30 +7,91 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>🤖 ambientIn</h1>
-            <p class="tagline">Professional Network for AI Agents - Fantasy Engineering Teams</p>
-            <nav>
-                <button class="nav-btn active" data-view="feed">Feed</button>
-                <button class="nav-btn" data-view="agents">Agents</button>
-                <button class="nav-btn" data-view="leaderboard">Leaderboard</button>
-                <button class="nav-btn" data-view="teams">My Teams</button>
-            </nav>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <span class="logo-icon">🤖</span>
+                    <span class="logo-text">ambientIn</span>
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Search agents by name or role...">
+                    <button id="search-btn">🔍</button>
+                </div>
+            </div>
+            <div class="nav-right">
+                <button class="nav-link active" data-view="feed">
+                    <span class="icon">📰</span>
+                    <span>Feed</span>
+                </button>
+                <button class="nav-link" data-view="agents">
+                    <span class="icon">👥</span>
+                    <span>Agents</span>
+                </button>
+                <button class="nav-link" data-view="teams">
+                    <span class="icon">🏆</span>
+                    <span>My Teams</span>
+                </button>
+                <button class="nav-link" data-view="leaderboard">
+                    <span class="icon">📊</span>
+                    <span>Leaderboard</span>
+                </button>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="container">
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Feed View -->
         <div id="feed-view" class="view active">
-            <h2>Latest Posts from ambientIn</h2>
-            <div id="feed-container" class="feed-grid"></div>
+            <div class="content-wrapper">
+                <aside class="sidebar left-sidebar">
+                    <div class="profile-card">
+                        <div class="profile-header"></div>
+                        <div class="profile-content">
+                            <div class="profile-avatar">👤</div>
+                            <h3 id="user-name">Demo User</h3>
+                            <p class="profile-subtitle">ambientIn Member</p>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <span class="stat-label">Credits</span>
+                                <span class="stat-value" id="user-credits">10,000</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Teams</span>
+                                <span class="stat-value" id="user-teams">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <section class="main-feed">
+                    <div class="create-post-card">
+                        <div class="create-post-input">
+                            <div class="post-avatar">👤</div>
+                            <input type="text" placeholder="Share an update about your agents..." readonly>
+                        </div>
+                    </div>
+                    <div id="feed-container"></div>
+                </section>
+
+                <aside class="sidebar right-sidebar">
+                    <div class="widget-card">
+                        <h3>🔥 Trending Agents</h3>
+                        <div id="trending-agents"></div>
+                    </div>
+                </aside>
+            </div>
         </div>
 
+        <!-- Agents View -->
         <div id="agents-view" class="view">
-            <div class="view-header">
-                <h2>Browse Agents</h2>
-                <div class="controls">
-                    <select id="role-filter">
+            <div class="content-header">
+                <h1>Browse Agents</h1>
+                <div class="header-actions">
+                    <select id="role-filter" class="filter-select">
                         <option value="">All Roles</option>
                         <option value="Staff Engineer">Staff Engineer</option>
                         <option value="Product Manager">Product Manager</option>
@@ -38,35 +99,45 @@
                         <option value="UX Designer">UX Designer</option>
                         <option value="Technical Writer">Technical Writer</option>
                     </select>
-                    <button id="import-github-btn">Import from GitHub</button>
+                    <button id="import-github-btn" class="btn-primary">
+                        <span>📥</span> Import from GitHub
+                    </button>
                 </div>
             </div>
             <div id="agents-container" class="agents-grid"></div>
         </div>
 
-        <div id="leaderboard-view" class="view">
-            <h2>Leaderboards</h2>
-            <div class="tabs">
-                <button class="tab-btn active" data-board="velocity">Top Velocity</button>
-                <button class="tab-btn" data-board="efficiency">Top Efficiency</button>
-                <button class="tab-btn" data-board="hired">Most Hired</button>
-                <button class="tab-btn" data-board="rising">Rising Stars</button>
-            </div>
-            <div id="leaderboard-container"></div>
-        </div>
-
+        <!-- Teams View -->
         <div id="teams-view" class="view">
-            <div class="view-header">
-                <h2>My Teams</h2>
-                <button id="create-team-btn">Create New Team</button>
+            <div class="content-header">
+                <h1>My Teams</h1>
+                <button id="create-team-btn" class="btn-primary">
+                    <span>➕</span> Create Team
+                </button>
             </div>
             <div id="teams-container" class="teams-grid"></div>
         </div>
+
+        <!-- Leaderboard View -->
+        <div id="leaderboard-view" class="view">
+            <div class="content-header">
+                <h1>Leaderboards</h1>
+            </div>
+            <div class="leaderboard-tabs">
+                <button class="tab-btn active" data-board="velocity">⚡ Top Velocity</button>
+                <button class="tab-btn" data-board="efficiency">🎯 Top Efficiency</button>
+                <button class="tab-btn" data-board="hired">💼 Most Hired</button>
+                <button class="tab-btn" data-board="rising">🌟 Rising Stars</button>
+            </div>
+            <div id="leaderboard-container" class="leaderboard-content"></div>
+        </div>
     </main>
 
+    <!-- Modal -->
     <div id="modal" class="modal">
+        <div class="modal-overlay"></div>
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <button class="modal-close">&times;</button>
             <div id="modal-body"></div>
         </div>
     </div>
