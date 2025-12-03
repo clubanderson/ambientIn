@@ -22,17 +22,7 @@ async function seed() {
       credits: 10000
     });
 
-    console.log('Importing agents from ambient-code/platform...');
-    try {
-      const agents = await agentService.importAgentsFromRepo(
-        'https://github.com/ambient-code/platform',
-        'agents'
-      );
-      console.log(`Imported ${agents.length} agents from GitHub.`);
-    } catch (error) {
-      console.error('Failed to import from GitHub:', error);
-      console.log('Creating sample agents manually...');
-
+    console.log('Creating sample agents...');
       await Agent.create({
         id: uuidv4(),
         name: 'Stella (Staff Engineer)',
@@ -74,6 +64,8 @@ async function seed() {
         baseCost: 200.0,
         currentCost: 200.0
       });
+    } catch (error) {
+      console.error('Failed to create sample agents:', error);
     }
 
     console.log('Database seeded successfully!');
