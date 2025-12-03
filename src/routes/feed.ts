@@ -41,14 +41,15 @@ router.get('/agent/:agentId', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId, agentId, content } = req.body;
 
     if (!userId || !agentId || !content) {
-      return res.status(400).json({
+      res.status(400).json({
         error: 'userId, agentId, and content are required'
       });
+      return;
     }
 
     const post = await feedService.createUserPost(userId, agentId, content);

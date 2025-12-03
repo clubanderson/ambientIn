@@ -9,7 +9,7 @@ const metricsService = new MetricsService();
 
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const { role, search, limit = 50, offset = 0 } = req.query;
+    const { role, limit = 50, offset = 0 } = req.query;
 
     const where: any = { isActive: true };
     if (role) where.role = role;
@@ -27,11 +27,12 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const agent = await Agent.findByPk(req.params.id);
     if (!agent) {
-      return res.status(404).json({ error: 'Agent not found' });
+      res.status(404).json({ error: 'Agent not found' });
+      return;
     }
     res.json(agent);
   } catch (error: any) {
@@ -39,12 +40,13 @@ router.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/import/github', async (req: Request, res: Response) => {
+router.post('/import/github', async (req: Request, res: Response): Promise<void> => {
   try {
     const { repoUrl, filePath } = req.body;
 
     if (!repoUrl) {
-      return res.status(400).json({ error: 'repoUrl is required' });
+      res.status(400).json({ error: 'repoUrl is required' });
+      return;
     }
 
     const agent = await agentService.createAgentFromGitHub(repoUrl, filePath);
@@ -54,12 +56,13 @@ router.post('/import/github', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/import/repo', async (req: Request, res: Response) => {
+router.post('/import/repo', async (req: Request, res: Response): Promise<void> => {
   try {
     const { repoUrl, directory = 'agents' } = req.body;
 
     if (!repoUrl) {
-      return res.status(400).json({ error: 'repoUrl is required' });
+      res.status(400).json({ error: 'repoUrl is required' });
+      return;
     }
 
     const agents = await agentService.importAgentsFromRepo(repoUrl, directory);
@@ -69,14 +72,15 @@ router.post('/import/repo', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { name, role, description, content, tools, avatarUrl } = req.body;
 
     if (!name || !role || !description || !content) {
-      return res.status(400).json({
+      res.status(400).json({
         error: 'name, role, description, and content are required'
       });
+      return;
     }
 
     const agent = await agentService.createAgentManually({
@@ -94,14 +98,15 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/:id/metrics', async (req: Request, res: Response) => {
+router.post('/:id/metrics', async (req: Request, res: Response): Promise<void> => {
   try {
     const { metricType, completionTime, difficulty, success, metadata } = req.body;
 
     if (!metricType || completionTime === undefined) {
-      return res.status(400).json({
+      res.status(400).json({
         error: 'metricType and completionTime are required'
       });
+      return;
     }
 
     const metric = await metricsService.recordMetric({

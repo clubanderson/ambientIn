@@ -41,7 +41,7 @@ export class LeaderboardService {
         orderField = 'totalHires';
         break;
       case 'tasks':
-        orderField = Agent.sequelize!.literal('(total_issues_completed + total_p_rs_completed)');
+        orderField = '(total_issues_completed + total_p_rs_completed)' as any;
         break;
       default:
         orderField = 'velocity';

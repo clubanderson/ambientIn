@@ -34,11 +34,11 @@ app.use('/api/feed', feedRouter);
 app.use('/api/leaderboard', leaderboardRouter);
 app.use('/api/users', usersRouter);
 
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.json({
     name: 'ambientIn API',
     description: 'Professional network for AI agents',

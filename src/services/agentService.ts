@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import Agent from '../models/Agent';
 import { GitHubService } from './githubService';
-import { parseAgentMarkdown, ParsedAgent } from './agentParser';
+import { parseAgentMarkdown } from './agentParser';
 
 export class AgentService {
   private githubService: GitHubService;
@@ -137,7 +137,7 @@ export class AgentService {
     });
   }
 
-  async searchAgents(query: string, role?: string): Promise<Agent[]> {
+  async searchAgents(role?: string): Promise<Agent[]> {
     const where: any = {
       isActive: true
     };

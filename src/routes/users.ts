@@ -4,14 +4,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, email, displayName, bio, avatarUrl } = req.body;
 
     if (!username || !email || !displayName) {
-      return res.status(400).json({
+      res.status(400).json({
         error: 'username, email, and displayName are required'
       });
+      return;
     }
 
     const user = await User.create({
@@ -29,11 +30,12 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/:id', async (req: Request, res: Response) => {
+router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
     res.json(user);
   } catch (error: any) {
@@ -41,13 +43,14 @@ router.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/username/:username', async (req: Request, res: Response) => {
+router.get('/username/:username', async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findOne({
       where: { username: req.params.username }
     });
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
     res.json(user);
   } catch (error: any) {
@@ -55,11 +58,12 @@ router.get('/username/:username', async (req: Request, res: Response) => {
   }
 });
 
-router.patch('/:id', async (req: Request, res: Response) => {
+router.patch('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'User not found' });
+      return;
     }
 
     const { displayName, bio, avatarUrl } = req.body;

@@ -4,12 +4,13 @@ import { TeamService } from '../services/teamService';
 const router = Router();
 const teamService = new TeamService();
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const { userId, name, description } = req.body;
 
     if (!userId || !name) {
-      return res.status(400).json({ error: 'userId and name are required' });
+      res.status(400).json({ error: 'userId and name are required' });
+      return;
     }
 
     const team = await teamService.createTeam(userId, name, description);
@@ -56,12 +57,13 @@ router.get('/:id/recommendations', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/:id/members', async (req: Request, res: Response) => {
+router.post('/:id/members', async (req: Request, res: Response): Promise<void> => {
   try {
     const { agentId, position } = req.body;
 
     if (!agentId) {
-      return res.status(400).json({ error: 'agentId is required' });
+      res.status(400).json({ error: 'agentId is required' });
+      return;
     }
 
     const member = await teamService.addAgentToTeam(req.params.id, agentId, position);
