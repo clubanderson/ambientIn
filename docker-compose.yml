@@ -31,10 +31,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:
-      - ./src:/app/src
-      - ./agents:/app/agents
-    command: npm run dev
+    command: npm start
 
 volumes:
   postgres_data:

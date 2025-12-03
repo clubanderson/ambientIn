@@ -15,7 +15,7 @@ export function parseAgentMarkdown(markdownContent: string): ParsedAgent {
   const name = data.name || extractNameFromContent(content);
   const role = data.role || extractRoleFromName(name);
   const description = data.description || extractDescriptionFromContent(content);
-  const tools = data.tools || [];
+  const tools = Array.isArray(data.tools) ? data.tools : (data.tools ? [data.tools] : []);
 
   return {
     name,
