@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import sequelize from './config';
 import { Agent, User } from '../models';
-import { AgentService } from '../services/agentService';
 
 async function seed() {
   try {
@@ -9,8 +8,6 @@ async function seed() {
 
     await sequelize.authenticate();
     console.log('Database connection established.');
-
-    const agentService = new AgentService(process.env.GITHUB_TOKEN);
 
     console.log('Creating demo users...');
     const demoUser = await User.create({
