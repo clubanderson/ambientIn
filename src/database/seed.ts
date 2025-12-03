@@ -23,6 +23,7 @@ async function seed() {
     });
 
     console.log('Creating sample agents...');
+    try {
       await Agent.create({
         id: uuidv4(),
         name: 'Stella (Staff Engineer)',
